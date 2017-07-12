@@ -8,7 +8,7 @@ end
 
 desc "Push Docker image to repo"
 task :push_image do
-  tag = "v1.quay.io/recfive/loggly-host-metrics-datadog-collector:#{sha}"
+  tag = "quay.io/recfive/loggly-host-metrics-datadog-collector:#{sha}"
   system "docker tag #{image_name} #{tag}"
   system "docker push #{tag}"
 end
