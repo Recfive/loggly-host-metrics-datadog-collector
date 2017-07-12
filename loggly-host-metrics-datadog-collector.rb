@@ -23,7 +23,7 @@ if resp.success?
     count = metric['count']
     instance_id = metric['term']
 
-    statsd.increment('loggly.message_total', by: count, tags: ["instance_id:#{instace_id}"])
+    statsd.increment('loggly.message_total', by: count, tags: ["instance_id:#{instance_id}"])
   end
 else
   puts "Failed to retrieve message counts from Loggly. (response code: #{resp.code}, response body: #{resp.body})"
