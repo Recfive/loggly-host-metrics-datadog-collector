@@ -1,17 +1,28 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aws-partitions (1.70.0)
+    aws-sdk-core (3.17.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-ecs (1.10.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.2)
     dogstatsd-ruby (3.0.0)
     httparty (0.15.5)
       multi_xml (>= 0.5.2)
+    jmespath (1.3.1)
     multi_xml (0.6.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk-ecs
   dogstatsd-ruby
   httparty
 
 BUNDLED WITH
-   1.14.6
+   1.16.1
