@@ -12,7 +12,10 @@ STATSD_ADDR = ENV.fetch('STATSD_ADDR', 'localhost:8125')
 ecs = Aws::ECS::Client.new
 
 # Get a list of clusters, excluding BORK, our test cluster
-cluster_arns = ecs.list_clusters.cluster_arns.reject {|arn| arn =~ /BORK/ }
+cluster_arns = [
+  "arn:aws:ecs:us-east-1:925377207665:cluster/ecs-twofishes-201511091730-EcsCluster-YR3A5S85797V",
+  "arn:aws:ecs:us-east-1:925377207665:cluster/ecs-201511091730-EcsCluster-RBGRNCYWHYV1"
+]
 
 # Build a list of instance_id for all of our ECS hosts that should be logging
 container_instance_ids = []
