@@ -11,19 +11,19 @@ STATSD_ADDR = ENV.fetch('STATSD_ADDR', 'localhost:8125')
 
 ecs = Aws::ECS::Client.new
 
-# Get a list of clusters, excluding BORK, our test cluster
 cluster_arns = [
   "arn:aws:ecs:us-east-1:925377207665:cluster/ecs-twofishes-201511091730-EcsCluster-YR3A5S85797V",
   "arn:aws:ecs:us-east-1:925377207665:cluster/ecs-201511091730-EcsCluster-RBGRNCYWHYV1"
 ]
 
-# Build a list of instance_id for all of our ECS hosts that should be logging
 container_instance_ids = []
 
 cluster_arns.each do |cluster_arn|
   container_instance_arns = ecs.list_container_instances(cluster: cluster_arn).container_instance_arns
   container_instances = ecs.describe_container_instances(cluster: cluster_arn, container_instances: container_instance_arns).container_instances
-  container_instance_ids += container_instances.map {|ci| ci.ec2_instance_id }
+
+  # We're only concerned with instances that have at least one running task on them
+  container_instance_ids += container_instances.select {|ci| ci.running_tasks_count > 0 }.map {|ci| ci.ec2_instance_id }
 end
 
 loggly_url = "https://#{LOGGLY_ACCOUNT_NAME}.loggly.com/apiv2/fields/syslog.host?from=-1m"
